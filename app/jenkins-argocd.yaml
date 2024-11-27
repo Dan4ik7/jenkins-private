@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  destination:
+    namespace: jenkins
+    server: https://kubernetes.default.svc
+  project: jenkins
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: '*'
+    chart: jenkins
+    helm:
+      values: |
+        jenkins:
+          adminUser: admin
+          adminPassword: manager
+        service:
+          type: ClusterIP
+        persistence:
+          enabled: true
+          storageClass: nfs
+        serviceAccount:
+          create: true
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
