@@ -13,17 +13,8 @@ spec:
     targetRevision: '*'
     chart: jenkins
     helm:
-      values: |
-        jenkins:
-          adminUser: admin
-          adminPassword: manager
-        service:
-          type: ClusterIP
-        persistence:
-          enabled: true
-          storageClass: nfs
-        serviceAccount:
-          create: true
+      valueFiles:
+        - values/jenkins-values.yaml
   syncPolicy:
     automated: {}
     syncOptions:
